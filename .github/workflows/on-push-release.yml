@@ -1,0 +1,25 @@
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  release-on-push:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Check head commit message
+        id: commit_msg
+        shell: bash
+        run: |
+          RELEASE_TYPE=$(echo "${{ github.event.head_commit.message }}" | grep -Po "\[(minor|major|patch)\]" || true) 
+          [ ${RELEASE_TYPE} ] && RELEASE_TYPE=$(echo ${RELEASE_TYPE} | grep -Po "(minor|major|patch)")
+          echo "release_type=${RELEASE_TYPE}" >> ${GITHUB_OUTPUT}
+      - name: Release
+        if: ${{ steps.commit_msg.outputs.release_type }}
+        uses: rymndhng/release-on-push-action@master
+        with:
+          tag_prefix: v
+          bump_version_scheme: ${{ steps.commit_msg.outputs.release_type }}
+          release_name: "Release <RELEASE_VERSION>"
