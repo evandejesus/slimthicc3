@@ -1,6 +1,7 @@
 on:
-  release:
-    types: [created]
+  workflow_run:
+    workflows: ["Main release"]
+    types: [completed]
 
 permissions:
     contents: write

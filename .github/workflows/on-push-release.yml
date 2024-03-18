@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   release-on-push:
+    name: 'Main release'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
