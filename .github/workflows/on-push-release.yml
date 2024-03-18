@@ -10,8 +10,6 @@ permissions:
 jobs:
   release-on-push:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check head commit message
         id: commit_msg

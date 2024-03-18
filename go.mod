@@ -1,4 +1,4 @@
-module github.com/evandejesus/slimthicc3-engine
+module github.com/evandejesus/slimthicc3
 
 go 1.20
 
