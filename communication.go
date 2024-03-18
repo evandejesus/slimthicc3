@@ -64,7 +64,7 @@ func UCI() {
 			}
 
 		case args[0] == "go":
-			m := randomMove(game)
+			m := simpleBestMove(game)
 			fmt.Println("bestmove", m)
 		}
 	}
