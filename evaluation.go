@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"math/rand"
 
 	"github.com/notnil/chess"
@@ -21,9 +20,9 @@ func simpleBestMove(game *chess.Game) *chess.Move {
 		tmpGame := game.Clone()
 		tmpGame.Move(m)
 		eval := -evaluateBoard(tmpGame.Position())
-		log.Printf("info move: %s eval: %d\n", m.String(), eval)
 
 		if eval > bestValue {
+			// slog.Debug("debug", "eval", eval, "move", m)
 			bestValue = eval
 			bestMove = m
 		}

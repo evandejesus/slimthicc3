@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log/slog"
 	"os"
 	"reflect"
 	"strings"
@@ -11,6 +12,7 @@ import (
 )
 
 func UCI() {
+	slog.SetLogLoggerLevel(slog.LevelDebug.Level())
 	game := chess.NewGame()
 	uciNotation := chess.UCINotation{}
 	// searcher
@@ -64,7 +66,13 @@ func UCI() {
 			}
 
 		case args[0] == "go":
-			m := simpleBestMove(game)
+			var m *chess.Move
+
+			m = getBookMove(game)
+			if m == nil {
+				m = simpleBestMove(game)
+
+			}
 			fmt.Println("bestmove", m)
 		}
 	}
