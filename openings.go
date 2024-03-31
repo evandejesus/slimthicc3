@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"log/slog"
 	"math/rand"
 	"strings"
 
@@ -35,7 +34,6 @@ func getBookMove(game *chess.Game) *chess.Move {
 		history := game.Moves()
 
 		if len(history) < len(bookMoves) && bookMatch(history, bookMoves) {
-			slog.Debug("debug", "book_move", bookMoves[len(history)])
 			notation := chess.UCINotation{}
 			move, err := notation.Decode(game.Position(), bookMoves[len(history)])
 			check(err)
@@ -46,14 +44,9 @@ func getBookMove(game *chess.Game) *chess.Move {
 		}
 	}
 
-	// if err := scanner.Err(); err != nil {
-	// 	slog.Error(err.Error())
-	// }
-
 	if len(potentialMoves) == 0 {
 		return nil
 	}
-	slog.Debug("debug", "potential_moves", potentialMoves)
 	return potentialMoves[rand.Intn(len(potentialMoves))]
 }
 

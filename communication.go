@@ -40,9 +40,7 @@ func UCI() {
 				if len(args) > 2 && args[2] == "moves" {
 					for _, s := range args[3:] {
 						m, err := uciNotation.Decode(game.Position(), s)
-						if err != nil {
-							panic(err)
-						}
+						check(err)
 						game.Move(m)
 					}
 				}
@@ -50,16 +48,13 @@ func UCI() {
 			case args[1] == "fen":
 				// position fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 				f, err := chess.FEN(strings.Join(args[2:8], " "))
-				if err != nil {
-					panic(err)
-				}
+				check(err)
 				game = chess.NewGame(f)
 				if len(args) > 8 && args[8] == "moves" {
 					for _, s := range args[9:] {
 						m, err := uciNotation.Decode(game.Position(), s)
-						if err != nil {
-							panic(err)
-						}
+						check(err)
+
 						game.Move(m)
 					}
 				}
@@ -71,7 +66,6 @@ func UCI() {
 			m = getBookMove(game)
 			if m == nil {
 				m = simpleBestMove(game)
-
 			}
 			fmt.Println("bestmove", m)
 		}
