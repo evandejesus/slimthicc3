@@ -51,6 +51,8 @@ func getBookMove(game *chess.Game) *chess.Move {
 }
 
 // position startpos moves e2e4 g7g6
+// position startpos moves e2e4 d7d6 d2d4 g7g6 g1f3
+// position startpos moves e2e4 e7e6 d2d4 d7d5 e4e5 c7c5 d4c5
 
 func contains(s []*chess.Move, e *chess.Move) bool {
 	for _, a := range s {

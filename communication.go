@@ -2,8 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
-	"log/slog"
 	"os"
 	"reflect"
 	"strings"
@@ -12,7 +10,6 @@ import (
 )
 
 func UCI() {
-	slog.SetLogLoggerLevel(slog.LevelDebug.Level())
 	game := chess.NewGame()
 	uciNotation := chess.UCINotation{}
 	// searcher
@@ -25,11 +22,11 @@ func UCI() {
 		case args[0] == "quit":
 			return
 		case args[0] == "isready":
-			fmt.Println("readyok")
+			logger.Println("readyok")
 		case args[0] == "uci":
-			fmt.Println("id name slimthicc3")
-			fmt.Println("id author evan")
-			fmt.Println("uciok")
+			logger.Println("id name slimthicc3")
+			logger.Println("id author evan")
+			logger.Println("uciok")
 		case args[0] == "ucinewgame" || len(args) == 2 && reflect.DeepEqual(args[:2], []string{"position", "startpos"}):
 			game = chess.NewGame()
 		case args[0] == "position":
@@ -65,9 +62,11 @@ func UCI() {
 
 			m = getBookMove(game)
 			if m == nil {
-				m = simpleBestMove(game)
+				var score float64
+				score, m = Search(game, 3)
+				uciInfo.Println("Score", score)
 			}
-			fmt.Println("bestmove", m)
+			logger.Printf("bestmove %s", m)
 		}
 	}
 }

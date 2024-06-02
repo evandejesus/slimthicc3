@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log/slog"
-
 	"github.com/notnil/chess"
 )
 
@@ -73,24 +71,7 @@ var flipPST = []int{
 	0, 1, 2, 3, 4, 5, 6, 7,
 }
 
-func simpleBestMove(game *chess.Game) *chess.Move {
-	bestValue := -9999.0
-	var bestMove = &chess.Move{}
-	for _, m := range game.ValidMoves() {
-		tmpGame := game.Clone()
-		tmpGame.Move(m)
-		eval := -evaluateBoard(tmpGame.Position())
-		slog.Debug("evaluateBoard2", "move", m.String(), "eval", eval)
-
-		if eval > bestValue {
-			bestValue = eval
-			bestMove = m
-		}
-	}
-	return bestMove
-}
-
-func evaluateBoard(pos *chess.Position) float64 {
+func EvaluateBoard(pos *chess.Position) float64 {
 	pawnRank := make(map[chess.Color][]int)
 	pawnRank[chess.White] = make([]int, 10)
 	pawnRank[chess.Black] = make([]int, 10)
