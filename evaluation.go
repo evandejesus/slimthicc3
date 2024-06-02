@@ -144,8 +144,5 @@ func EvaluateBoard(pos *chess.Position) float64 {
 		}
 	}
 
-	if pos.Turn() == chess.White {
-		return score
-	}
-	return -score
+	return score
 }

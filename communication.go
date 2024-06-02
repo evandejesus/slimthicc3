@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"math"
 	"os"
 	"reflect"
 	"strings"
@@ -63,7 +64,7 @@ func UCI() {
 			m = getBookMove(game)
 			if m == nil {
 				var score float64
-				score, m = Search(game, 3)
+				score, m = Search(game, 4, math.Inf(-1), math.Inf(1))
 				uciInfo.Println("Score", score)
 			}
 			logger.Printf("bestmove %s", m)

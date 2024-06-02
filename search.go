@@ -1,50 +1,49 @@
 package main
 
 import (
-	"math"
-
 	"github.com/notnil/chess"
 )
 
-func Search(game *chess.Game, depth int) (float64, *chess.Move) {
+func Search(game *chess.Game, depth int, alpha float64, beta float64) (float64, *chess.Move) {
 	if st := game.Position().Status(); depth == 0 || st == chess.Checkmate || st == chess.Stalemate {
-		return -EvaluateBoard(game.Position()), nil
+		return EvaluateBoard(game.Position()), nil
 	}
 
-	var bestScore float64
 	var bestMove *chess.Move
 	if game.Position().Turn() == chess.White {
 		// turn is White
-		bestScore = math.Inf(-1)
 		bestMove = nil
 		for _, move := range game.ValidMoves() {
 			newPos := game.Clone()
 			err := newPos.Move(move)
 			check(err)
-			score, _ := Search(newPos, depth-1)
-			if score > bestScore {
-				uciInfo.Println("White", depth, score, move)
-				bestScore = score
+			score, _ := Search(newPos, depth-1, alpha, beta)
+			if score > alpha {
+				alpha = score
 				bestMove = move
+				if alpha >= beta {
+					break
+				}
 			}
 		}
-		return bestScore, bestMove
+		return alpha, bestMove
 	} else {
 		// turn is Black
-		bestScore = math.Inf(1)
 		bestMove = nil
 		for _, move := range game.ValidMoves() {
 			newPos := game.Clone()
 			err := newPos.Move(move)
 			check(err)
-			score, _ := Search(newPos, depth-1)
-			if score < bestScore {
-				uciInfo.Println("Black", depth, score, move)
-				bestScore = score
+			score, _ := Search(newPos, depth-1, alpha, beta)
+			if score < beta {
+				beta = score
 				bestMove = move
+				if alpha >= beta {
+					break
+				}
 			}
 		}
-		return bestScore, bestMove
+		return beta, bestMove
 	}
 
 }
