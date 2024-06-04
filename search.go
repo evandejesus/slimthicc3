@@ -4,7 +4,7 @@ import (
 	"github.com/notnil/chess"
 )
 
-func Search(game *chess.Game, depth int, alpha float64, beta float64) (float64, *chess.Move) {
+func Search(game *chess.Game, depth int, alpha int, beta int) (int, *chess.Move) {
 	if st := game.Position().Status(); depth == 0 || st == chess.Checkmate || st == chess.Stalemate {
 		return EvaluateBoard(game.Position()), nil
 	}
